@@ -4,9 +4,14 @@
 	$('.date-picker').each( function() {
 		var $thisPicker      = $( this )
 		  , pickerConfig     = $thisPicker.data()
-		  , relativeToField  = pickerConfig.relativeToField
-		  , relativeOperator = pickerConfig.relativeOperator
+		  , relativeToField  = pickerConfig.relativeToField  || ""
+		  , relativeOperator = pickerConfig.relativeOperator || ""
+		  , relativeOffset   = parseInt( pickerConfig.relativeOffset || "" )
 		  , conf, form, relativeField, datePicker;
+
+		if ( isNaN( relativeOffset ) ) {
+			relativeOffset = 0;
+		}
 
 		conf = {
 			  autoclose : true
@@ -46,14 +51,16 @@
 					currentDate = new Date( currentDate );
 					switch( relativeOperator ) {
 						case "lt":
-							currentDate.setDate( currentDate - 1 );
+							currentDate.setDate( currentDate.getDate() - 1 );
 						case "lte":
+							currentDate.setDate( currentDate.getDate() - relativeOffset );
 							datePicker.setEndDate( currentDate );
 						break;
 
 						case "gt":
 							currentDate.setDate( currentDate.getDate() + 1 );
 						case "gte":
+							currentDate.setDate( currentDate.getDate() + relativeOffset );
 							datePicker.setStartDate( currentDate );
 						break;
 					}
@@ -66,12 +73,14 @@
 						case "lt":
 							newDate.setDate( newDate.getDate() - 1 );
 						case "lte":
+							newDate.setDate( newDate.getDate() - relativeOffset );
 							datePicker.setEndDate( newDate );
 						break;
 
 						case "gt":
 							newDate.setDate( newDate.getDate() + 1 );
 						case "gte":
+							newDate.setDate( newDate.getDate() + relativeOffset );
 							datePicker.setStartDate( newDate );
 						break;
 					}

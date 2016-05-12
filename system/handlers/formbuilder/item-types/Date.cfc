@@ -7,28 +7,6 @@ component {
 		event.include( assetId="/css/frontend/formbuilder/datePicker/" );
 		event.include( assetId="/js/frontend/formbuilder/datePicker/" );
 
-		if ( Len( Trim( args.relativeOperator ?: "" ) ) && IsBoolean( args.relativeToCurrentDate ?: "" ) && args.relativeToCurrentDate ) {
-			var theDate   = Now();
-			var validator = "maximumDate";
-
-			switch( args.relativeOperator ) {
-				case "lt":
-					var diff = val(args.offset) ? val(-args.offset) : -1;
-					args.maxDate = DateAdd( 'd', diff, Now() );
-				break;
-				case "lte":
-					args.maxDate = Now()
-				break;
-				case "gt":
-					var diff = val(args.offset) ? val(args.offset) : 1;
-					args.minDate = DateAdd( 'd', diff, Now() );
-				break;
-				case "gte":
-					args.minDate = Now()
-				break;
-			}
-		}
-
 		return renderFormControl(
 			  argumentCollection = args
 			, name               = controlName
